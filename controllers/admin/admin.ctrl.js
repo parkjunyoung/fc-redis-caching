@@ -7,6 +7,19 @@ redisClient.on('error', function (err) {
 });
 
 exports.get_products = async ( _ , res) => {
+
+    let results = null;
+
+    redisClient.get( "products:all" , ( err , data) => {
+        if(data){
+            results = data;
+        }else{
+            results = null;
+        }
+    });
+    console.log(results);
+    
+
     const products = await models.Products.findAll();
     res.render( 'admin/products.html' ,{ products });
 }
