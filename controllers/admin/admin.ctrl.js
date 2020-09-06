@@ -22,6 +22,10 @@ exports.post_products_write = async ( req , res ) => {
         price : req.body.price ,
         description : req.body.description
     })
+
+    const products = await models.Products.findAll();
+    redisClient.set( "products:all" , JSON.stringify(products))
+
     res.redirect('/admin/products');
 
 }
