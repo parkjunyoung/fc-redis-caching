@@ -6,19 +6,23 @@ redisClient.on('error', function (err) {
     console.log('Error ' + err);
 });
 
-exports.get_products = async ( _ , res) => {
-
-    let results = null;
-
-    redisClient.get( "products:all" , ( err , data) => {
+const getAsync = (key) => new Promise( (resolve , reject ) => {
+    redisClient.get( key , ( err , data) => {
+        if(err) reject(err);
         if(data){
-            results = data;
+            resolve(data);
         }else{
-            results = null;
+            resolve(null);
         }
     });
-    console.log(results);
+})
+
+exports.get_products = async ( _ , res) => {
+
+    let results = await getAsync("products:all");
     
+    console.log(results);
+
 
     const products = await models.Products.findAll();
     res.render( 'admin/products.html' ,{ products });
