@@ -1,21 +1,13 @@
 const models = require('../../models');
 const redis = require('redis');
 const redisClient = redis.createClient(); 
+const { promisify } = require("util");
 
 redisClient.on('error', function (err) {
     console.log('Error ' + err);
 });
 
-const getAsync = (key) => new Promise( (resolve , reject ) => {
-    redisClient.get( key , ( err , data) => {
-        if(err) reject(err);
-        if(data){
-            resolve(data);
-        }else{
-            resolve(null);
-        }
-    });
-})
+const getAsync = promisify(redisClient.get).bind(redisClient);
 
 exports.get_products = async ( _ , res) => {
 
