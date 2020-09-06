@@ -19,13 +19,13 @@ const getAsync = (key) => new Promise( (resolve , reject ) => {
 
 exports.get_products = async ( _ , res) => {
 
-    let results = await getAsync("products:all");
+    let results = JSON.parse(await getAsync("products:all"));
+
+    if(!results){
+        results = await models.Products.findAll();
+    }
     
-    console.log(results);
-
-
-    const products = await models.Products.findAll();
-    res.render( 'admin/products.html' ,{ products });
+    res.render( 'admin/products.html' ,{ products : results });
 }
 
 exports.get_products_write = ( _ , res) => {
