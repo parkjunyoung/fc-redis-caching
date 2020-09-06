@@ -1,4 +1,10 @@
 const models = require('../../models');
+const redis = require('redis');
+const redisClient = redis.createClient(); 
+
+redisClient.on('error', function (err) {
+    console.log('Error ' + err);
+});
 
 exports.get_products = async ( _ , res) => {
     const products = await models.Products.findAll();
