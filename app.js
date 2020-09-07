@@ -84,14 +84,17 @@ class App {
     setSession (){
         
         const session = require('express-session');
-        
+        const RedisStore = require('connect-redis')(session)
+        const redis = require('redis')
+
         this.app.use(session({
             secret: 'nodejs',
             resave: false,
             saveUninitialized: true,
             cookie: {
                 maxAge: 2000 * 60 * 60 //지속시간 2시간
-            }
+            },
+            store: new RedisStore({ client: redis.createClient() }),
         }));
 
     }
