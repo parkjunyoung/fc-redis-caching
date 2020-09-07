@@ -80,5 +80,22 @@ exports.get_products_delete = ( req , res ) => {
 };
 
 exports.get_login = ( req,res ) => {
-    res.render('admin/login.html')
+    console.log(req.session.user);
+    const user = req.session.user ? req.session.user : null;
+    res.render('admin/login.html' , { user })
+}
+
+exports.post_login = ( req, res ) => {
+
+    const tempUser = {
+        id : "junyoung",
+        password : "1234"
+    }
+
+    if( JSON.stringify(req.body) !== JSON.stringify(tempUser))
+        return res.send('<script>alert("not match");history.go(-1)</script>')
+    
+    // redisClient.set( `user:${req.body.id}` , JSON.stringify(req.body))
+    req.session.user = req.body;
+    res.redirect('/admin/login')
 }

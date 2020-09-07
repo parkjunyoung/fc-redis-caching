@@ -24,6 +24,9 @@ class App {
         // 정적 디렉토리 추가
         this.setStatic();
 
+        // 세션 설정
+        this.setSession();
+
         // 로컬 변수
         this.setLocals();
 
@@ -76,6 +79,21 @@ class App {
 
     setStatic (){
         this.app.use('/uploads', express.static('uploads'));
+    }
+
+    setSession (){
+        
+        const session = require('express-session');
+        
+        this.app.use(session({
+            secret: 'nodejs',
+            resave: false,
+            saveUninitialized: true,
+            cookie: {
+                maxAge: 2000 * 60 * 60 //지속시간 2시간
+            }
+        }));
+
     }
 
     setLocals(){
