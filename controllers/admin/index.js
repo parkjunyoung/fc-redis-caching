@@ -16,6 +16,7 @@ router.post('/products/edit/:id', ctrl.post_products_edit );
 
 router.get('/products/delete/:id', ctrl.get_products_delete );
 
+router.get('/login', ctrl.get_login );
 
 module.exports = router;
 

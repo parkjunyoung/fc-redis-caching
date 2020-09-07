@@ -78,3 +78,7 @@ exports.get_products_delete = ( req , res ) => {
         res.redirect('/admin/products');
     });
 };
+
+exports.get_login = ( req,res ) => {
+    res.render('admin/login.html')
+}
